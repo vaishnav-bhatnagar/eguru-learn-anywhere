@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Login } from '@/components/Login';
+import { LandingPage } from '@/components/LandingPage';
+import { AuthPage } from '@/components/AuthPage';
 import { StudentDashboard } from '@/components/StudentDashboard';
 import { TeacherDashboard } from '@/components/TeacherDashboard';
 import { LessonViewer } from '@/components/LessonViewer';
-import { User, Lesson, database } from '@/lib/indexedDB';
+import { useAuth } from '@/contexts/AuthContext';
+import { Lesson, database } from '@/lib/indexedDB';
 
 const Index = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, profile, loading } = useAuth();
+  const [showAuth, setShowAuth] = useState(false);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,9 +34,12 @@ const Index = () => {
     }
   };
 
-  const handleLogin = (userData: User) => {
-    setUser(userData);
-    database.saveUser(userData);
+  const handleGetStarted = () => {
+    setShowAuth(true);
+  };
+
+  const handleAuthBack = () => {
+    setShowAuth(false);
   };
 
   const handleLessonStart = (lesson: Lesson) => {
@@ -44,7 +50,7 @@ const Index = () => {
     setCurrentLesson(null);
   };
 
-  if (isLoading) {
+  if (loading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse text-center">
@@ -55,8 +61,12 @@ const Index = () => {
     );
   }
 
+  if (!user && showAuth) {
+    return <AuthPage onBack={handleAuthBack} />;
+  }
+
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+    return <LandingPage onGetStarted={handleGetStarted} />;
   }
 
   if (currentLesson) {
@@ -69,7 +79,7 @@ const Index = () => {
     );
   }
 
-  return user.role === 'student' ? (
+  return profile?.role === 'student' ? (
     <StudentDashboard user={user} onLessonStart={handleLessonStart} />
   ) : (
     <TeacherDashboard user={user} />

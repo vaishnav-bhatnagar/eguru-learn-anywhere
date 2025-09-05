@@ -3,32 +3,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { BookOpen, Users, Trophy, Clock, Target, TrendingUp, ArrowRight, LogOut, User } from "lucide-react";
 import { LessonCard } from './LessonCard';
-import { 
-  BookOpen, 
-  Trophy, 
-  Clock, 
-  Target, 
-  TrendingUp,
-  ArrowRight,
-  Star
-} from "lucide-react";
-import { Lesson, UserProgress, User, database } from '@/lib/indexedDB';
-import { sampleLessons, subjects } from '@/data/sampleLessons';
+import { User as UserType, Lesson, database } from '@/lib/indexedDB';
+import { sampleLessons } from '@/data/sampleLessons';
+import { useAuth } from '@/contexts/AuthContext';
+import { ThemeToggle } from './ThemeToggle';
 
 interface StudentDashboardProps {
-  user: User;
+  user: UserType;
   onLessonStart: (lesson: Lesson) => void;
 }
 
 export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps) {
+  const { signOut, profile } = useAuth();
   const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [userProgress, setUserProgress] = useState<UserProgress[]>([]);
+  const [progress, setProgress] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadDashboardData();
-  }, [user.id]);
+  }, [user?.id]);
 
   const loadDashboardData = async () => {
     try {
@@ -46,10 +41,10 @@ export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps)
         allLessons = await database.getAllLessons();
       }
       
-      const progress = await database.getProgressByUser(user.id);
+      const userProgress = user?.id ? await database.getProgressByUser(user.id) : [];
       
       setLessons(allLessons);
-      setUserProgress(progress);
+      setProgress(userProgress);
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
     } finally {
@@ -58,13 +53,13 @@ export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps)
   };
 
   const getProgressForLesson = (lessonId: string) => {
-    return userProgress.find(p => p.lessonId === lessonId);
+    return progress.find(p => p.lessonId === lessonId);
   };
 
-  const completedLessons = userProgress.filter(p => p.completed).length;
-  const totalTimeSpent = userProgress.reduce((total, p) => total + p.timeSpent, 0);
-  const averageScore = userProgress.length > 0 
-    ? userProgress.filter(p => p.quizScore !== undefined).reduce((total, p) => total + (p.quizScore || 0), 0) / userProgress.filter(p => p.quizScore !== undefined).length
+  const completedLessons = progress.filter(p => p.completed).length;
+  const totalTimeSpent = progress.reduce((total, p) => total + p.timeSpent, 0);
+  const averageScore = progress.length > 0 
+    ? progress.filter(p => p.quizScore !== undefined).reduce((total, p) => total + (p.quizScore || 0), 0) / progress.filter(p => p.quizScore !== undefined).length
     : 0;
 
   const recentLessons = lessons
@@ -92,19 +87,28 @@ export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps)
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-primary text-primary-foreground p-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between">
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+              <BookOpen className="h-5 w-5 text-primary-foreground" />
+            </div>
             <div>
-              <h1 className="text-2xl font-bold">Welcome back, {user.name}!</h1>
-              <p className="text-primary-foreground/80 mt-1">
-                Continue your learning journey
-              </p>
+              <h1 className="text-xl font-bold">Eguru</h1>
+              <p className="text-sm text-muted-foreground">Welcome, {profile?.full_name || 'Student'}</p>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-primary-foreground/80">Current Streak</div>
-              <div className="text-2xl font-bold">7 days</div>
-            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <ThemeToggle />
+            <Button variant="ghost" size="sm">
+              <User className="h-4 w-4 mr-2" />
+              Profile
+            </Button>
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </header>
@@ -186,31 +190,15 @@ export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps)
               <p className="text-muted-foreground">Choose what interests you</p>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {subjects.map((subject) => {
-              const subjectLessons = lessons.filter(l => l.subject === subject.id);
-              const completedInSubject = subjectLessons.filter(l => 
-                getProgressForLesson(l.id)?.completed
-              ).length;
-              
-              return (
-                <Card key={subject.id} className="group hover:shadow-medium transition-all cursor-pointer bg-gradient-card border-0">
-                  <CardContent className="p-4 text-center">
-                    <div className={`text-3xl mb-2 group-hover:scale-110 transition-transform`}>
-                      {subject.icon}
-                    </div>
-                    <h3 className="font-semibold text-sm mb-1">{subject.name}</h3>
-                    <div className="text-xs text-muted-foreground">
-                      {completedInSubject}/{subjectLessons.length} lessons
-                    </div>
-                    <Progress 
-                      value={(completedInSubject / subjectLessons.length) * 100} 
-                      className="h-1 mt-2" 
-                    />
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {lessons.map((lesson) => (
+              <LessonCard
+                key={lesson.id}
+                lesson={lesson}
+                progress={getProgressForLesson(lesson.id)}
+                onStart={() => onLessonStart(lesson)}
+              />
+            ))}
           </div>
         </section>
 

@@ -29,10 +29,10 @@ export interface UserProgress {
 
 export interface User {
   id: string;
-  name: string;
-  role: 'student' | 'teacher';
-  email: string;
-  language: string;
+  name?: string;
+  role?: 'student' | 'teacher';
+  email?: string;
+  language?: string;
   grade?: string;
   avatar?: string;
 }
