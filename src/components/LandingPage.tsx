@@ -33,10 +33,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
   ];
 
   const stats = [
-    { label: "Students Served", value: "10K+" },
-    { label: "Lessons Available", value: "500+" },
-    { label: "Success Rate", value: "95%" },
-    { label: "Rural Areas", value: "200+" }
+  { label: "Students Served", value: "0" },
+  { label: "Lessons Available", value: "0" },
+  { label: "Success Rate", value: "0%" },
+  { label: "Rural Areas", value: "0" }
   ];
 
   return (
@@ -157,20 +157,20 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                name: "Priya Sharma",
-                role: "Rural School Teacher",
-                content: "Eguru has transformed how I teach. My students can now access quality content even without internet.",
+                name: "Vaishnav Bhatnagar",
+                role: "Student's Guardian",
+                content: "Eguru has transformed how my brother learns. He can now access quality content even without internet.",
                 rating: 5
               },
               {
-                name: "Rajesh Kumar",
+                name: "Saurav Kumar",
                 role: "Student",
                 content: "I can study anytime now! The offline feature helps me learn even when there's no internet at home.",
                 rating: 5
               },
               {
-                name: "Dr. Meena Patel",
-                role: "Education Director",
+                name: "Kartikey Pandey",
+                role: "Teacher",
                 content: "The progress tracking features help us monitor student development across multiple villages.",
                 rating: 5
               }

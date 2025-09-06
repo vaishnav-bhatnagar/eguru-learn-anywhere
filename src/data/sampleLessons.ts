@@ -6,7 +6,7 @@ export const sampleLessons: Lesson[] = [
     title: 'Basic Mathematics - Addition',
     description: 'Learn the fundamentals of addition with interactive examples',
     type: 'video',
-    content: 'https://example.com/math-addition.mp4', // Placeholder - would be actual video
+  content: '/Basic Mathematics additon.mp4',
     duration: 15,
     subject: 'Mathematics',
     level: 'beginner',
@@ -18,7 +18,7 @@ export const sampleLessons: Lesson[] = [
     title: 'English Alphabet Sounds',
     description: 'Practice pronunciation of English alphabet letters',
     type: 'audio',
-    content: 'https://example.com/alphabet-sounds.mp3',
+  content: '/(Audio) videoplayback.m4a',
     duration: 10,
     subject: 'English',
     level: 'beginner',
@@ -54,7 +54,7 @@ export const sampleLessons: Lesson[] = [
     title: 'Hindi Varnamala (हिंदी वर्णमाला)',
     description: 'Hindi alphabet learning with pronunciation guide',
     type: 'audio',
-    content: 'https://example.com/hindi-varnamala.mp3',
+  content: '/Varnmala.m4a',
     duration: 12,
     subject: 'Hindi',
     level: 'beginner',
@@ -66,7 +66,7 @@ export const sampleLessons: Lesson[] = [
     title: 'Digital Literacy - Using a Computer',
     description: 'Learn basic computer operations and digital skills',
     type: 'video',
-    content: 'https://example.com/computer-basics.mp4',
+  content: '/Digital Literacy.mp4',
     duration: 25,
     subject: 'Digital Literacy',
     level: 'beginner',
@@ -82,24 +82,73 @@ export const sampleQuizzes: Quiz[] = [
     questions: [
       {
         id: 'q1',
-        question: 'What is 5 + 3?',
-        options: ['6', '7', '8', '9'],
+        question: 'What is 25 × 4?',
+        options: ['50', '75', '100', '125'],
         correctAnswer: 2,
-        explanation: '5 + 3 = 8. When we add 5 and 3 together, we get 8.'
+        explanation: '25 × 4 = 100.'
       },
       {
-        id: 'q2', 
-        question: 'What is 10 - 4?',
-        options: ['5', '6', '7', '8'],
+        id: 'q2',
+        question: 'Solve: (15 ÷ 3) + 7 = ?',
+        options: ['10', '12', '15', '18'],
         correctAnswer: 1,
-        explanation: '10 - 4 = 6. When we subtract 4 from 10, we get 6.'
+        explanation: '(15 ÷ 3) + 7 = 5 + 7 = 12.'
       },
       {
         id: 'q3',
-        question: 'What is 2 × 3?',
-        options: ['4', '5', '6', '7'],
+        question: 'The perimeter of a square is 36 cm. What is the length of one side?',
+        options: ['6 cm', '8 cm', '9 cm', '12 cm'],
         correctAnswer: 2,
-        explanation: '2 × 3 = 6. When we multiply 2 by 3, we get 6.'
+        explanation: 'Perimeter = 4 × side, so side = 36 ÷ 4 = 9 cm.'
+      },
+      {
+        id: 'q4',
+        question: 'What is the value of 3² + 4²?',
+        options: ['12', '16', '25', '32'],
+        correctAnswer: 2,
+        explanation: '3² + 4² = 9 + 16 = 25.'
+      },
+      {
+        id: 'q5',
+        question: 'If a train travels 60 km in 1 hour, how far will it travel in 2.5 hours?',
+        options: ['100 km', '120 km', '150 km', '180 km'],
+        correctAnswer: 2,
+        explanation: '60 × 2.5 = 150 km.'
+      },
+      {
+        id: 'q6',
+        question: 'Simplify: 2(3 + 5) – 4',
+        options: ['10', '12', '14', '16'],
+        correctAnswer: 0,
+        explanation: '2 × 8 – 4 = 16 – 4 = 12.'
+      },
+      {
+        id: 'q7',
+        question: 'Which of the following is a prime number?',
+        options: ['15', '21', '29', '35'],
+        correctAnswer: 2,
+        explanation: '29 is a prime number.'
+      },
+      {
+        id: 'q8',
+        question: 'The average of 6, 8, 10, 12 is:',
+        options: ['8', '9', '10', '11'],
+        correctAnswer: 1,
+        explanation: '(6 + 8 + 10 + 12) ÷ 4 = 36 ÷ 4 = 9.'
+      },
+      {
+        id: 'q9',
+        question: 'Solve for x: 2x + 5 = 15',
+        options: ['4', '5', '6', '7'],
+        correctAnswer: 0,
+        explanation: '2x = 10, so x = 5.'
+      },
+      {
+        id: 'q10',
+        question: 'What is the square root of 144?',
+        options: ['10', '11', '12', '14'],
+        correctAnswer: 2,
+        explanation: '√144 = 12.'
       }
     ]
   }

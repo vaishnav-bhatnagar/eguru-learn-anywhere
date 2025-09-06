@@ -115,22 +115,18 @@ export function LessonViewer({ lesson, user, onBack, onComplete }: LessonViewerP
       case 'video':
         return (
           <div className="space-y-4">
-            <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
-              <div className="text-center text-white">
-                <Play className="h-16 w-16 mx-auto mb-4 opacity-80" />
-                <p className="text-lg">Video Player</p>
-                <p className="text-sm opacity-80">Placeholder for video content</p>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <Button
-                onClick={handlePlayPause}
-                className="absolute bottom-4 right-4 bg-primary/90 hover:bg-primary"
-                size="sm"
-              >
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isPlaying ? 'Pause' : 'Play'}
-              </Button>
-            </div>
+            <Card className="bg-gradient-to-br from-lesson-video/10 to-lesson-video/5 border-lesson-video/20">
+              <CardContent className="p-8 text-center">
+                <div className="w-full aspect-video bg-black rounded-lg flex items-center justify-center mx-auto mb-4 overflow-hidden">
+                  <video controls style={{ width: '100%', height: '100%' }}>
+                    <source src={lesson.content} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Video Lesson</h3>
+                <p className="text-muted-foreground mb-6">Watch the lesson content</p>
+              </CardContent>
+            </Card>
           </div>
         );
       
@@ -144,13 +140,10 @@ export function LessonViewer({ lesson, user, onBack, onComplete }: LessonViewerP
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Audio Lesson</h3>
                 <p className="text-muted-foreground mb-6">Listen to the lesson content</p>
-                <Button
-                  onClick={handlePlayPause}
-                  className="bg-lesson-audio hover:bg-lesson-audio/90"
-                >
-                  {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
-                  {isPlaying ? 'Pause Audio' : 'Play Audio'}
-                </Button>
+                <audio controls style={{ width: '100%' }}>
+                  <source src={lesson.content} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
               </CardContent>
             </Card>
           </div>

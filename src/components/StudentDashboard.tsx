@@ -151,7 +151,7 @@ export function StudentDashboard({ user, onLessonStart }: StudentDashboardProps)
               <div className="flex items-center justify-center w-12 h-12 bg-lesson-video/10 rounded-full mx-auto mb-2">
                 <TrendingUp className="h-6 w-6 text-lesson-video" />
               </div>
-              <div className="text-2xl font-bold">+15%</div>
+              <div className="text-2xl font-bold">0</div>
               <div className="text-sm text-muted-foreground">This Week</div>
             </CardContent>
           </Card>
